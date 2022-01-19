@@ -81,3 +81,83 @@ When -> 언제 실행되는가
 Steps
 stage 내부에는 여러가니 스텝들로 구성
 여러 작업들을 실행 가능하며 플러그인을 깔면 사용할 수 있는 스텝들이 생겨난다
+
+ci/cd
+=============
+continuius intergration - 통합, 
+continuous Delivery - 무엇을 배달한다
+사용자에게 제품을 서비스를 지속적으로 배달하는것
+코드베이스가 항상 베포가능한 상태를 유지하는 것을 뜻한다
+continuous Depolyment
+코드베이스를 사용자가 사용가능한 환경에 배포하는것을 자동화함
+
+ci가 필요한 이유
+-------------
+여러명의 개발자가 개발한것을 나중에 한번에 합칠때 merge하기가 힘들다...
+	-> 지속적으로 통합하는것이 필요하다 즉 모든 개발자들이 안심하고 개발을 하기 위해, 내 코드와 맨탈을 위해~
+
+ci를 사용하면
+-------------
+10명의 개발자가 열심히 개발 > 커밋 > 로컬 테스트 통과 > 코드베이스 머지
+
+
+sqlalchemy 사용 부분, models.py 
+-------------
+* models.py 부분
+```
+class Food(db.Model) :
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    food_name = db.Column(db.String(64), nullable=False)
+    calorie = db.Column(db.Float, nullable=False)
+    protein = db.Column(db.Float, nullable=False)
+```
+
+* views.py 부분
+```
+food = Food.query.filter(Food.food_name == food_name).first()
+
+foods = Food.query.order_by(desc(text(nutrient))).limit(10)
+```
+* first() 를 통해 데이터베이스의 데이터를 가지고 오면 class 타입으로 데이터를 가지고 오게된다.
+    * food_nutrients[0] = food.calorie
+    * food_nutrients[1] = food.protein
+    * 그렇기 때문에 위 코드처럼 원하는 컬럼을 명시해 주어야한다.
+
+jinja를 통해 js와 연결
+-------------
+* Html 파일 부분
+```
+<div class='' id="result-data" data-nutrients= '{{ nutrients }}' data-result = '{{ foods_nutrients }}' >
+    <div class="recommendation_container"></div>
+```
+* js 부분
+```
+let input_data = $('#result-data').data().nutrients;
+```
+jinja를 통해 js와 연결할때 js부분이 html파일에 있다면 단순히 {{ }} 를 통해 연결 되지만  
+js 파일을 따로 만들어서 연결했다면 jinja만을 통해 연결 불가  
+그렇기 때문에 위 코드처럼 커스텀 데이터 방식을 통해 연결해야 한다.  
+data-원하는명 을 통해 얼마든지 연결 가능  
+
+```
+json_result_recommend = json.dumps(result_recommend, ensure_ascii = False)
+json_foods_nutrients = json.dumps(recommend_foods_nutrients, ensure_ascii = False)
+
+return render_template("check.html",nutrients=json_result_recommend,food_lst=food_lst,\
+    foods_nutrients=json_foods_nutrients,result=result, sum_nutrients=sum_nutrients)
+```
+위의 커스텀 방식으로 flask 변수와 js 변수를 연결했을 때 리스트, string, int 자료형들은 올바르게 연결되지만  
+리스트안에 딕셔너리와 같은 형식은 연결할때 string 형식으로 읽게된다.  
+
+(딕셔너리 형태에서 value가 리스트인 경우는 js에서 string으로 인식하지않고 리스트로 인식)  
+
+따라서 flask변수와 js변수를 연결 할때 데이터 형식이 2중 이상의 구조(ex: 리스트안에 딕셔너리)일 경우에는  
+json 형식으로 보내주어야 자료형이 string으로 변환되지 않는다.  
+
+##### flask(python)에서 변수를 선언할때 딕셔너리로 선언하고 json으로 변환해서 html에 보내야 js에서 올바르게 인식한다.!!!!
+
+
+
+
+
+
