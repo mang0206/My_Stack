@@ -1,0 +1,21 @@
+yum update -y
+
+# jenkins 패키지 추가
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.io/redhat/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+->  Error: Package: jenkins-2.303.1-1.1.noarch (jenkins)  
+       Requires: daemonize  
+이러한 오류 발생 
+
+기본적으로 daemonize는 Centos에서 데몬으로 명령을 실행 실행 중인 Centos 버전에 패키지가 없기 때문에 이 오류가 발생 Jenkins가 실행하는 데 필요한 종속성처럼 생각하지만 Daemonize에서 누락되었으므로 오류가 발생
+
+yum install epel-release -y  
+yum install daemonize -y  
+이 명령으로 다운 시도시 aws에서 올바른 명령어를 보여준다. 해당 명령어를 통해 daemonize 다운
+
+# Install java, docker, git
+sudo yum install -y java-1.8.0-openjdk jenkins git docker
+
+# jenkins 실행
+service jenkins start
