@@ -22,7 +22,7 @@ block안에 해당하는 html 파일을 열경우 상속 받는 html 파일에 b
 form 태그 
 -------------
 * action  
-action 속성은 form태그가 어디로 데이터를 보낼것인지 전송한다. 즉 form 태그 안의 데이터를 어떤 url로 보내는지 명시해준다.  
+action 속성은 form태그가 어디로 데이터를 보낼 것인지에 대한 내용이다. 즉 form 태그 안의 데이터를 어떤 url(함수)로 보내는지 명시해준다.  
 default값으로는 현재 패이지로 데이터 전송.  
 
 * method  
@@ -41,6 +41,51 @@ submit을 할 버튼을 제외하고는 반드시 type 속성을 button으고 �
   
 form 태그안에서 required 속성을 가진 input, textarea등의 태그가 비어있을 시 post 전송을 해도 get으로 전송하거나 오류 페이지를 반환  
 required 속성은 해당 테그의 데이터가 제출되기 전 반드시 채워져 있어야 하는 것을 명시해주는 속성이다.  
+  
+* 한 페이지에서의 중복 form 태그 활용  
+한 페이지에서 form 태그가 여러개 존재할시 form 태그 안의 submit 버튼의 name 속성 값으로 구분이 가능하다.
+```
+#(html 파일 부분)
+<form action="/setting" method="post" name="setting_form_ide">
+    <p class="setting_header">닉네임 변경</p>
+    <input type="text" placeholder="새로운 닉네임" name="setting_input_ide">
+    <button type="submit" class="setting_submit_btn" name="setting_button_ide">닉네임 저장</button>
+</form>
+<form action="/setting" method="post" name="setting_form_bio">
+    <p class="setting_header">소개글 수정</p>
+    <input type="text"placeholder="새로운 소개글" name="setting_input_bio">
+    <button type="submit" class="setting_submit_btn" name="setting_button_bio">소개글 저장</button>
+</form>
+
+#(python 파일 부분)
+if 'setting_button_ide' in request.form:
+    input_ide = request.form.get('setting_input_ide')
+    col_user.update_one(
+        {'user_id': session['login']},
+        {'$set' : {'nickname': input_ide}}
+    )
+    session['nickname'] = input_ide
+
+if 'setting_button_bio' in request.form:
+    bio = request.form.get('setting_input_bio')
+    col_user.update_one(
+        {'user_id': session['login']},
+        {'$set' : {'bio': bio}}
+    )
+```
+  
+알림 - flask flash를 위한 alert 코드
+-------------
+```
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
+```
+  
 
 jinja를 통해 js와 연결
 -------------
