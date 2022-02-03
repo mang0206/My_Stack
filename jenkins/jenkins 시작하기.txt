@@ -1,0 +1,16 @@
+ec2 서버 8080으로 접속
+sudo cat /var~~~~ 를 통해 이니셜 password 입력을 통해 대시보드 접속
+
+추천 플러그인 설치
+install suggested plugins
+
+create First admin user 진행
+
+git 연결을 위해 jenkins 관리, manage credetion 이동
+	-> jenkins -> global credention 이동
+
+add credention에서 git 등록
+
+git에서 settings -> developer setting -> personal aceess tokens 에서 repo 클릭후 key 생성
+
+jenkins Username에 아이디, password에 생성된 키 입력
