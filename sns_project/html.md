@@ -86,6 +86,57 @@ if 'setting_button_bio' in request.form:
 {% endwith %}
 ```
   
+jinja2 template
+-------------
+jinja2 템플릿은 웹 페이지에서 필요한 부분을 변경할 필요가 있을 때, 사용하는 간단한 문법이다.  
+jinja2 템플릿 엔진이 해당 HTML 코드를 템플릿으로 만들면, 템플릿 안의 존재하는 파이썬 코드를 실행시켜 템플릿을 채운 후 최종 HTML 파일을 생성하는 원리이다.  
+![jinja](https://user-images.githubusercontent.com/86212081/153781739-774c1bac-9e7b-4346-beb4-cc9df7193561.png) 
+(출처 https://frhyme.github.io/python-libs/jinja_basic/)  
+즉 template(문서 원형)과 data model을 혼합하여, 새로운 document를 만드는 것이다.
+
+jinja2 template 문법
+-------------
+보통 {{ }} 이런 형식으로 변수를 작성하고 {% %} 이런 형식으로 문법 작성
+위에 작성한 block도 jinja2 template의 일종이다.
+
+- 형변환
+
+#user.html 부분
+```
+{% if post['_id']|string in user['like'] %}
+<img src="../static/img/like.png" alt="" class="content_icon" id="like_icon" value="cancel"\
+    post_id = "{{ post['_id']}}">
+{% else %}
+```
+jinja template 문법에서 형변화를 하기 위해서는 위의 if 조건문에서처럼 해당 변수 뒤에  |(바꿀 변수 형식) 이렇게 붙여 사용한다.  
+
+- if 분기문
+```
+{% if --- %}
+    수행할 문장
+{% elif --- %}
+    수행할 문장
+{% else %}
+    수행할 문장
+{% endif %}
+```
+리스트의 길이를 알기 위해서는 len() 함수를 사용하는 것이 아닌  
+```
+리스트이름|length
+```
+이런식으로 사용해야 한다.
+
+
+- for 반복문
+```
+{% for ~ in ~~~ %}
+    수행할 문장
+{% endfor %}
+```
+if문과 for문 등 파이썬 source code를 사용할 때는 반드시 end 문법을 뒤에 붙여주어야한다.  
+for 문에서 in 뒷 부분에서 리스트가 아닌 딕셔너리를 사용할면 파이썬과 마찬가지로 그냥 사용했을때는 key 값으로 loop를 돌고
+.items()를 붙여 사용하면 key, value 두개를 인자로 받아 반복문을 돈다. (.keys(), .values() 둘다 사용 가능)
+
 
 jinja를 통해 js와 연결
 -------------
@@ -98,7 +149,7 @@ jinja를 통해 js와 연결
 ```
 let input_data = $('#result-data').data().nutrients;
 ```
-jinja를 통해 js와 연결할때 js부분이 html파일에 있다면 단순히 {{ }} 를 통해 연결 되지만  
+리스트나 딕셔너리 변수의 경우 jinja를 통해 js와 연결할때 js부분이 html파일에 있다면 단순히 {{ }} 를 통해 연결 되지만  
 js 파일을 따로 만들어서 연결했다면 jinja만을 통해 연결 불가  
 그렇기 때문에 위 코드처럼 커스텀 데이터 방식을 통해 연결해야 한다.  
 data-원하는명 을 통해 얼마든지 연결 가능  
@@ -113,7 +164,7 @@ return render_template("check.html",nutrients=json_result_recommend,food_lst=foo
 위의 커스텀 방식으로 flask 변수와 js 변수를 연결했을 때 리스트, string, int 자료형들은 올바르게 연결되지만  
 리스트안에 딕셔너리와 같은 형식은 연결할때 string 형식으로 읽게된다.  
 
-(딕셔너리 형태에서 value가 리스트인 경우는 js에서 string으로 인식하지않고 리스트로 인식)  
+(딕셔너리 형태에서 value가 리스트인 경우는 js에서 string으로 인식하지 않고 리스트로 인식)  
 
 따라서 flask변수와 js변수를 연결 할때 데이터 형식이 2중 이상의 구조(ex: 리스트안에 딕셔너리)일 경우에는  
 json 형식으로 보내주어야 자료형이 string으로 변환되지 않는다.  
