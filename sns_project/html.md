@@ -172,6 +172,28 @@ json 형식으로 보내주어야 자료형이 string으로 변환되지 않는�
 ##### flask(python)에서 변수를 선언할때 딕셔너리로 선언하고 json으로 변환해서 html에 보내야 js에서 올바르게 인식한다.!!!!
 
 
+이미지 파일 업로드
+----------
+이미지 파일이 여러개라면 input tag에 multiple 속성을 추가해줘야 하며 name속성을 리스트 형식으로 지어줘야 한다.
+form 태그에서도 enctype="multipart/form-data" 이렇게 enctype 속성을 지정해 주어야한다.
+```
+<form action="/content_submit" class="plus_container" id="plus_container" name="content_form" method="POST" enctype="multipart/form-data">
+    <div class="popup_file">
+        <div class="popup_file_input">
+            <input type="file"  multiple="'multiple" id="popup_input_file" name="content_file[]" onChange="image_select()" >
+           <button type="button" id="input_file_btn" onClick="document.getElementById('popup_input_file').click()" class="input_file_btn">                                
+               파일 선택하기
+            </button>
+        </div>
+       <div class="" id="file_container">
+            <!-- 이미지 미리보기 구역 -->
+      </div>
+    </div>
+</form>
 
-
-
+# python 부분
+content_file = request.files.getlist("content_file[]")   
+```
+python에서는 이미지가 여러개일때 files로 받지 않고 files.getlist를 통해 리스트 형식으로 받는다.  
+multiple을 해줬다고 하나씩 여러 개 받을 수 있는게 아니고 한번에 여러 개 파일을 업로드 할 수 있는것이다.  
+하나씩 여러번 받기 위해서 즉 동적으로 이미지를 처리하기 위해서는 js에서 관련 기능을 처리해 주어야한다.(js 파일에 해당 내용 정리)  
