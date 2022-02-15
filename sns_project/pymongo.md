@@ -92,5 +92,93 @@ col_post.update_one({'_id':ObjectId(data['post_id'])}, {'$push': {'like': sessio
 col_post.update_one({'_id':ObjectId(data['post_id'])}, {'$pull': {'like': { 'nickname' : session['nickname']}}})
 ```
 
-이미지 저장 방법
+이미지 저장, 불러오기 방법
 ----------
+  * gridFs 이용하기 
+```
+# 이미지 mongodb에 저장
+fs = gridfs.GridFS(db)
+  if 'setting_button_profile' in request.form:
+    input_profile = request.files.get('setting_input_profile')
+
+    # colection에 파일 저장 put 함수는 저장된 document id를 반환한다
+    _id = fs.put(input_profile)
+    # 해당 documet id 정보를 현재 session user document에 추가
+    col_user.update_one(
+      {'user_id': session['login']},
+      {'$set' : {'profile_img': _id}}
+    )
+
+# 이미지 파일 불러오기 
+fs = gridfs.GridFS(db)
+session_user = col_user.find_one({'user_id': session['login']})
+if session_user['profile_img']:
+  img = fs.get(session_user['profile_img'])
+  
+  base64_data = codecs.encode(img.read(), 'base64')
+  profile_img = base64_data.decode('utf-8')
+  print(profile_img)
+```
+gridFs를 사용해서 이미지 저장하는 방법은 우선 이미지 저장하는 collection을 따로 만들고 거기에 이미지를 저장한다.  
+gridFs에 내장되어 있는 함수 put을 사용하면 이미지를 mongodb에 저장할 수 있는 형태로 인코드하고 저장되는 document Id 값을 반환해 준다.  
+반환받은 document Id 값을 원하는 document에 저장한다.  
+이미지 불러오는 방식은 document에 저장된 이미지 Id값을 get 함수를 통해 byte 형태로 저장된 파일을 디코드하여 이미지 파일을 불러온다.  
+
+**이렇게 gridFs를 사용하는 방식은 이미지 파일을 불러올때마다 디코더 과정을 거치기 때문에 매우 느리다는 단점이 있었다.**  
+  (심할때는 이미지 10장도 불러오지 않는데 20초 이상 걸릴 때도 있었다..... aws의  s3를 사용하게 된 이유)
+
+  * aws s3  
+```
+# s3 connection 
+def s3_connection():
+    try:
+        s3 = boto3.client(
+            service_name="s3",
+            region_name="ap-northeast-2", # 자신이 설정한 bucket region
+            aws_access_key_id='AKIAYFTWJFXVINK7YLUL',
+            aws_secret_access_key='*******************',
+        )
+    except Exception as e:
+        print(e)
+    else:
+        print("s3 bucket connected!")
+        return s3
+
+s3 = s3_connection()
+
+# put image
+def s3_put_object(s3, bucket, file, filename, file_kind = 'images'):
+    """
+    s3 bucket에 지정 파일 업로드
+    :param s3: 연결된 s3 객체(boto3 client)
+    :param bucket: 버킷명
+    :param file: 저장할 파일
+    :param filename: 저장 파일명
+    :return: 성공 시 True, 실패 시 False 반환
+    """
+    try:
+        s3.put_object(
+            Body = file,
+	        Bucket = bucket,
+            Key = f'{file_kind}/{filename}',
+            ContentType = file.content_type
+        )
+    except Exception as e:
+        return False
+    return True
+
+# get image
+def s3_get_image_url(s3, filename, file_kind = 'images'):
+    """
+    s3 : 연결된 s3 객체(boto3 client)
+    filename : s3에 저장된 파일 명
+    """
+    location = s3.get_bucket_location(Bucket='ydpsns')["LocationConstraint"]
+    return f"https://{'ydpsns'}.s3.{location}.amazonaws.com/{file_kind}/{filename}"
+# delete image
+def s3_delete_image(filename):
+    print('delete =', f'images/{filename}')
+    s3.delete_object(Bucket='ydpsns',Key=f'images/{filename}')
+```
+s3를 이용하는 방법은 s3에 이미지를 저장하고 해당 url 정보를 db에 저장하는 방식이다.  
+**s3에 데이터를 put, get, 하기 위해서는 해당 bucket을 public으로 바꿔주어야 한다.**  
