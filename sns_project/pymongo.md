@@ -197,3 +197,28 @@ if _delete != col_user.find_one({'user_id': 'default'}, {'_id':0, 'profile_img':
 ```
 s3를 이용하는 방법은 s3에 이미지를 저장하고 해당 url 정보를 db에 저장하는 방식이다.  
 **s3에 데이터를 put, get, 하기 위해서는 해당 bucket을 public으로 바꿔주어야 한다.**  
+
+s3 bucket 설정
+-------------
+1. 퍼블릭으로 바꿔주어야 한다.
+2. 사용한 bucket 정책
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowObjectAccess",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::ydpsns/*"
+        }
+    ]
+}
+```
+**s3에서 deleteObject를 사용하기 위해서는 iam에서 권한을 만들 때 AmazonS3FullAccess 뿐만아니라 
+AmazonS3OutpostsFullAccess 도 추가해야 한다.**
