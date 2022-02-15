@@ -179,6 +179,21 @@ def s3_get_image_url(s3, filename, file_kind = 'images'):
 def s3_delete_image(filename):
     print('delete =', f'images/{filename}')
     s3.delete_object(Bucket='ydpsns',Key=f'images/{filename}')
+    
+# s3를 사용해서 url mongodb 저장 방법
+filename = input_profile.filename.split('.')[0]
+ext = input_profile.filename.split('.')[-1]
+nickname = session['nickname']
+img_name = dt.datetime.now().strftime(f"{nickname}-{filename}-%Y-%m-%d-%H-%M-%S.{ext}")
+
+_delete = col_user.find_one({'user_id':session['login']}, {'_id':0, 'profile_img':1})['profile_img']
+if _delete != col_user.find_one({'user_id': 'default'}, {'_id':0, 'profile_img':1})['profile_img']:
+    s3_delete_image(_delete[0])
+    s3_put_object(s3,'ydpsns',input_profile,img_name)
+    col_user.update_one(
+	{'user_id': session['login']},
+	{'$set' : {'profile_img': [img_name, s3_get_image_url(s3, img_name)]}}
+    )
 ```
 s3를 이용하는 방법은 s3에 이미지를 저장하고 해당 url 정보를 db에 저장하는 방식이다.  
 **s3에 데이터를 put, get, 하기 위해서는 해당 bucket을 public으로 바꿔주어야 한다.**  
