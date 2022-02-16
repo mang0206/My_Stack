@@ -221,4 +221,5 @@ s3 bucket 설정
 }
 ```
 **s3에서 deleteObject를 사용하기 위해서는 iam에서 권한을 만들 때 AmazonS3FullAccess 뿐만아니라 
-AmazonS3OutpostsFullAccess 도 추가해야 한다.**
+AmazonS3OutpostsFullAccess 도 추가해야 한다.**  
+s3 bucket 정책(https://shxrecord.tistory.com/182)
