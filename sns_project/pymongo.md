@@ -33,7 +33,13 @@ Pymongo 사용하여 mongodb 접속
 -----------
 ec2 서버의 mongodb에 접속
 ```
-conn = pymongo.MongoClient("mongodb://root:study111@13.125.71.134:27017/root?authSource=admin")
+"""
+aws에서 security를 설정하지 않았다면 connection = pymongo.MongoClient("mongodb://localhost:27017") 이런 식으로 접속 할 수 있지만
+security:
+    authorization: enabled
+이렇게 설정했기 때문에 아래와 같이 형식에 올바르게 접속 코드를 작상해야 한다.
+"""
+conn = pymongo.MongoClient("mongodb://root:비밀번호@13.125.71.134:27017/root?authSource=admin")
 ```
 접속한 mongodb의 database 접속
 ```
@@ -207,19 +213,32 @@ s3 bucket 설정
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowObjectAccess",
+            "Sid": "PublicRead",
             "Effect": "Allow",
             "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::ydpsns/*"
+        },
+        {
+            "Sid": "Allow All",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::561815039466:user/ydpsns_s3"
+            },
             "Action": [
+                "s3:DeleteObject",
                 "s3:PutObject",
-                "s3:GetObject",
-                "s3:DeleteObject"
+                "s3:GetObject"
             ],
             "Resource": "arn:aws:s3:::ydpsns/*"
         }
     ]
 }
 ```
+Principal을 통해 사용자를 지정해 줘서 사용자 마다 권한을 다르게 설정해 줄 수 있다.  
+Statement의 첫 번째 부분은 모든 사용자가 getObject 할 수 있게 해주는 부분이고  
+Statement의 두 번째 부분은 자신의 사용자(IAM)의 권한으로 put, delete, get 할 수 있게 해주는 부분이다.
+
 **s3에서 deleteObject를 사용하기 위해서는 iam에서 권한을 만들 때 AmazonS3FullAccess 뿐만아니라 
 AmazonS3OutpostsFullAccess 도 추가해야 한다.**  
 s3 bucket 정책(https://shxrecord.tistory.com/182)
