@@ -22,3 +22,31 @@ id에는 environment AWS_ACCESS_KEY_ID 변수에서의 문자열과 똑같이 �
 
 secrete access key도  Secret 부분에  iam에서의 비밀 액세스 키를  id에서는 
 AWS_SECRET_ACCESS_KEY의 문자열과 똑같이해서 생성해준다.
+
+젠킨스에서 email 보내기
+젠킨스파일 code line 65~77
+gmail로 이메일을 보내기 위해서는 젠킨스 페이지에서 jenkins 관리 -> 시스템 설정 -> 맨 밑 부분에 E-mail로 알려줌 -> smtp 서버 칸에 smtp.gmail.com를 입력한다
+
+젠킨스에서 필요한 플러그인 다운로드
+도커의 경우 docker, docker pipeline 다운 
+(ec2에서도 도커 다운 - sudo yum install docker
+도커 다운 후 사용하기 위해서 아래와 같은 명령어 입력
+sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+) ec2 서버에서 docker 실행 > sudo start docker.service
+	위 명령어 실행시 아무것도 뜨지 않으면 sudo systemctl status docker.service 이
+	명령어로 Active확인 running 상태면 잘 실행되고 있는 상태다
+
+본격적 시작
+jenkins에서 new item -> pipline으로 생성 (free style은 가볍게 사용할때 사용)
+GitHub project 체크 후 원하는 repository url 작성 (마지막에 .git 붙지 않음)
+
+Poll SCM 체크하되 schedule에 코드는 작성하지 않는다. poll SCM은 jenkinsfile에서 trigger로 동작한다. 
+저장후 dashboard로 이동 build now 버튼 클릭
+
+script 부분에 Jenkinsfile 코드를 복붙 (definition에서 pipline scripte가 아닌 pipline script from SCM을 선택하면 jenkinsfile 자체도 git을 통해 업로드할 수 있다.)
+
+
+젠킨스에서 환경 변수 설정 방법 - 젠킨스 관리 -> 시스템 설정 -> Global properties 에 Environment variables를 통해 설정 가능
+
+젠킨스 오류 발생시 build history에서 bulid numer 클릭칸에 console output이 있다. 여기서 log를 확인하면서 수정해 나가면 된다.
