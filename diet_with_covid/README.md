@@ -1,93 +1,60 @@
-# ydp_my_work_flow
+# Way to Beat Covid-19 ( Version Diet )
 
+- With Corona 시대에 예방과 회복을 위한 식단을 추천드립니다.
 
+## 1. 프로젝트 소개
 
-## Getting started
+  - Dataset
+    + 식품영양소 데이터셋
+      - 식품의약안전처, 2021-11-24, https://www.foodsafetykorea.go.kr/fcdb/
+    + 영양소 분포에 따른 코로나 확진률 및 회복률 데이터
+      - PRB, 2021-08, https://interactives.prb.org/2021-wpds/download-files/ (World Population Data)
+      - JOHNS HOPKINS, 2021-08-30, https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports (Global Confirmed)
+      - FAO, 2019-12-31, https://www.fao.org/faostat/en/#data/QI (Food Group Production)
+    + 이스라엘 보건청의 증상에 따른 코로나 검사 데이터
+      - 이스라엘 보건청, https://data.gov.il/dataset/covid-19/resource/d337959a-020a-4ed3-84f7-fca182292308 (Symptom-Confirmed Data)   
+  - 기술 스택 (python, javascript, MySQL 등)
+	- Python ( Flask, Pandas, SQLAlchemy )
+	- Tableau
+	- ML ( LightGBM, CatBoost )   
+  - 웹서비스에 대한 자세한 개요
+	- 코로나 감염 예방 및 회복을 위한 식단 추천
+	- 코로나 시대에 달라진 활동패턴에 맞춘 식단 추천
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## 2. 프로젝트 목표
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+**데이터 분석 결과로 도출되는 인사이트와 웹서비스의 해결과제에 대한 논의 (50자 이상)**
+  - 프로젝트 아이디어 동기
+    - 위드코로나 시대를 이겨내기 위한 방안 제시   
+  - 문제를 해결하기 위한 특정 질문 명시
+    - 의학적 전문성이 아닌 데이터 기반의 해석을 통해 코로나 대항 식단을 제공 할 수 있을까?   
+  - 데이터를 통해 탐색하려는 문제를 구체적으로 작성
+    -  식단과 영양소에 따른 데이터로 코로나 대항 좋은 영양소 제안 ( + 공급자에 필요한 데이터 제공 )
+    -  추천된 영양소 위주의 식단 제공
+    -  배달음식 주문 증가로 인한 불균형 식단 관리
 
-## Add your files
+## 3. 프로젝트 기능 설명
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+**웹서비스의 유용성, 편의성 및 시각화의 실용성에 대한 설명**
+  - 주요 기능 (주된 활용성) 및 서브 기능
+	- 식단선정에 의미있는 시각 데이터 제공
+	- 탄단지 + 좋은/나쁜 영양소 = 추천 ( 올리브유 = naver/recipe/?=올리브유 )
+	- 증상에 따른 코로나 확진 확률 -> 전문의학으로 항상 진료받을수없다.   
+	
+  - 프로젝트만의 차별점, 기대 효과
+	- 진단키트를 사지않고 확진률을 알 수 있다.
+	- 그에 따른 맞춤 식단을 제공 할 수 있다.
+	- 코로나에 따른 생활 패턴 변화에 적응하기 어려운 사람들에게 좋은 식단을 제공할 수 있다.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/alswosp0206/ydp_my_work_flow.git
-git branch -M main
-git push -uf origin main
-```
+## 4. 프로젝트 팀원 역할 분담
+| 이름 | 담당 업무 |
+| ------ | ------ |
+| 김준철 | 데이터 분석, 모델링 |
+| 김현경 | 프론트엔드 개발 |
+| 박미주 | 프론트엔드 개발, 상호 가능한 시각화 |
+| 맹민재 | 데이터 분석, 벡엔드 개발 |
+| 손창엽 | 데이터 분석, 벡엔드 개발 |
+| 정현우 | 데이터 분석 |
 
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://gitlab.com/alswosp0206/ydp_my_work_flow/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:204df6238e2a528ae791b2a2c6e3871b?https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+## 5. 프로젝트 repository 주소
+https://github.com/mang0206/diet_with_covid_mirror
