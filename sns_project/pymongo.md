@@ -55,6 +55,7 @@ db가 여러개가 아니라면 기본적으로 python의 가비지 컬렉션이
 
 사용한 Pymongo 문법
 -----------
+  - **Create**
 ```
 col.insert_one(
 { 'user_id': user_id,
@@ -67,7 +68,9 @@ col.insert_one(
   'bio': None,
   'user_email': email
 })
-
+```
+  - **Read**
+```
 # or 연산자와 regex
 query = { '$or' : 
         [ {'name': { '$regex' :  search, '$options': '$i'}},\
@@ -83,7 +86,10 @@ session_user = col_user.find_one({'user_id':session['login']},{'_id':0, 'nicknam
 
 # 여러개의 검색 결과 중 하나의 key 값만 가지고 오기
 request_friend_id = [user['user_id'] for user in col_request_friend.find({'request_user':user})]
+```
 
+  - **Update**
+```
 # update는 set을 통해 값 수정
 col_user.update_one(
   {'user_id': session['login']},
@@ -98,6 +104,16 @@ col_post.update_one({'_id':ObjectId(data['post_id'])}, {'$push': {'like': sessio
 col_post.update_one({'_id':ObjectId(data['post_id'])}, {'$pull': {'like': { 'nickname' : session['nickname']}}})
 ```
 
+  - **Delete**
+ ```
+ col_delete = db.get_collection('deleteFile')
+ col_delete.delete_many({})
+ 
+ result = col.delete_one({
+ 	# '_id': ObjectId('61d00cdeba8833acb1019a6b')
+        '_id': ObjectId('61efc1b8a94321fa3d464725')
+    })
+ ```
 이미지 저장, 불러오기 방법
 ----------
   * gridFs 이용하기 
