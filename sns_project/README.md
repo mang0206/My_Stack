@@ -9,7 +9,7 @@
   - 기술 스택 (python, javascript, mongodb, aws 등)  
   - Python ( Flask, pymongo, boto3 )  
   - javascript ( Jquery, ajax ) 
-	
+  - aws ( ec2, s3, iam )
 
 ## 2. 프로젝트 목표
   - 친구들과 게시물을 통해 일상을 공유
