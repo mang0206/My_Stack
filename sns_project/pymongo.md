@@ -239,6 +239,4 @@ Principal을 통해 사용자를 지정해 줘서 사용자 마다 권한을 다
 Statement의 첫 번째 부분은 모든 사용자가 getObject 할 수 있게 해주는 부분이고  
 Statement의 두 번째 부분은 자신의 사용자(IAM)의 권한으로 put, delete, get 할 수 있게 해주는 부분이다.
 
-**s3에서 deleteObject를 사용하기 위해서는 iam에서 권한을 만들 때 AmazonS3FullAccess 뿐만아니라 
-AmazonS3OutpostsFullAccess 도 추가해야 한다.**  
 s3 bucket 정책(https://shxrecord.tistory.com/182)
