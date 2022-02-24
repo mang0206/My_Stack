@@ -49,4 +49,32 @@ classic UI
 클래식 UI를 사용하여 생성된 Jenkinsfile은 Jenkins 자체에(Jenkins 홈 디렉터리 내) 저장된다.  
 
 Jenkins 클래식 UI를 통해 기본 파이프라인을 생성  
-  1. 
+![image](https://user-images.githubusercontent.com/86212081/155512890-ca1a29b3-82d0-437f-9df3-c9bd0b40f575.png)  
+이름을 작성한 후 Pipeline을 클릭해서 작성할 수 있다.(jenkins는 이 이름을 가지고 디렉토리를 만듬으로 공백은 넣지 않는다.)  
+
+SCM
+-----------
+복잡한 파이프라인은 클래식 UI 텍스트 영역 내에서 작성하고 유지하기 어렵다.  
+좀더 쉽게 파이프라인을 작성하고 관리하기 위해서는 jsnkinsfile을 ide에서 작성하고 소스 제어에 커밋할 수 있다.  
+
+**jenkinsfile을 사용하여 파이프라인 프로젝트 구성**  
+  1. 우선 classic UI와 똑같이 new item에서 Pipeline을 클릭해서 들어간다.  
+  2.   
+![image](https://user-images.githubusercontent.com/86212081/155514604-e2f355b9-bae6-42ac-b6fc-6ad19357d9f8.png)  
+위 사진과 같이 scm을 선택한다.  
+  3. 
+![image](https://user-images.githubusercontent.com/86212081/155514903-dc98ca66-be2d-4050-96c4-1eb374d95f6e.png)  
+위 사진과 같이 jenkinsfile이 포함된 git repository 주소와 Credentials을 선택  
+  (credential 설정 방법 -> https://github.com/mang0206/My_flow/blob/9cbafbdffc63f79f8b37cd0ecc652c8b29783b44/jenkins/jenkins%20%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.txt#L9)  
+
+  4.  
+![image](https://user-images.githubusercontent.com/86212081/155515533-435098cb-a66e-498f-a899-7ae8f1565b43.png)  
+마지막으로 git repository에서의 jenkinsfile 경로를 작성해준다.  
+(맨 밑에 Pipeline Syntext는 키워드를 통해 자동으로 문법을 생성해주는 것 같은데 잘 모르겠다)  
+
+Global Variable Reference
+--------------
+Pipeline은 전역변수도 제공한다.  
+![image](https://user-images.githubusercontent.com/86212081/155517656-3f5c7997-ab98-488d-b386-7586f3fb2621.png)  
+
+
