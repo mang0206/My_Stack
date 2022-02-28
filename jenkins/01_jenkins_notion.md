@@ -1,3 +1,5 @@
+[Tacademy - jenkins를 활용한 CL/CD  https://tacademy.skplanet.com/live/player/onlineLectureDetail.action?seq=190]  
+
 ci/cd
 =============
 continuius intergration - 통합, 
