@@ -56,3 +56,14 @@ Deploy
 
 Jenkins Pipeline 예제에서 모든 것이 성공적으로 실행되었다고 가정하면 각 성공적인 파이프라인 실행에는  
 관련 빌드 아티팩트가 보관되고 테스트 결과가 보고되며 Jenkins의 전체 콘솔 출력이 모두 표시된다.  
+
+환경 변수 종류 및 사용법은 사이트 참조  
+환경 변수 사용 예시  
+```
+environment {
+      AWS_ACCESS_KEY_ID = credentials('awsAccessKeyId')
+      AWS_SECRET_ACCESS_KEY = credentials('awsSecretAccessKey')
+      AWS_DEFAULT_REGION = 'ap-northeast-2'
+      HOME = '/home/MJ' // Avoid npm root owned
+    }
+```
