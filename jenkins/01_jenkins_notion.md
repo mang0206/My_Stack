@@ -1,4 +1,4 @@
-[Tacademy - jenkins를 활용한 CI/CD  https://tacademy.skplanet.com/live/player/onlineLectureDetail.action?seq=190]  
+[Tacademy - jenkins를 활용한 CL/CD  https://tacademy.skplanet.com/live/player/onlineLectureDetail.action?seq=190]  
 
 ci/cd
 =============

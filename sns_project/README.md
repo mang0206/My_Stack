@@ -4,7 +4,8 @@
 
 ## 1. 프로젝트 소개
   - 페이스북과 인스타 같은 웹 sns 구현
-![image](https://user-images.githubusercontent.com/86212081/154900180-9d898a59-3703-4696-ac76-940588333768.png)
+![image](https://user-images.githubusercontent.com/86212081/154900180-9d898a59-3703-4696-ac76-940588333768.png)  
+![image](https://user-images.githubusercontent.com/86212081/155872007-620328e4-7029-4aff-bc50-1463ead53b05.png)  
 
   - 기술 스택 (python, javascript, mongodb, aws 등)  
   - Python ( Flask, pymongo, boto3 )  

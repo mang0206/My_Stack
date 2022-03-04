@@ -197,5 +197,12 @@ input 태그에서 파일을 새롭게 업로드하면 filelist가 초기화 되
 삭제 할때도 마찬가지로 DataTransfer에 해당하는 이미지 데이터를 지우고 filelist를 DataTransfer로 업로드하는 방식으로 한다.  
 
 
-
-
+동적으로 생성된 tag들 제어
+------------
+js 코드로 의해 생성된 tag들은 .click() 함수가 작동되지 않는다.  
+```
+$(document).on("click",".reply_submit",function(){
+    ~~~~~~~~~~~~
+}
+```
+동적으로 생성된 HtML tag들은 위와 같이 **on() 함수**를 사용해서 처리한다.  
