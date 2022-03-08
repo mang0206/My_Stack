@@ -1,5 +1,4 @@
 pipeline {
-    // 스테이지 별로 다른 거
     agent any
 
     //깃을 3분 주기로 끌어온다
@@ -22,9 +21,9 @@ pipeline {
             steps {
                 echo 'Clonning Repository'
 
-                git url: 'https://github.com/mang0206/My_flow.git',
-                    branch: 'master',
-                    credentialsId: 'gittest'
+                git url: 'https://github.com/dyeo-mee/YDP-SNS.git',
+                    branch: 'testing',
+                    credentialsId: 'gitMJ'
             }
 
             post {
@@ -42,76 +41,6 @@ pipeline {
                   echo "after all other post condition"
                 }
             }
-        }
-        
-        // aws s3 에 파일을 올림
-        stage('Deploy Frontend') {
-          steps {
-            echo 'Deploying Frontend'
-            // 프론트엔드 디렉토리의 정적파일들을 S3 에 올림, 이 전에 반드시 EC2 instance profile 을 등록해야함.
-            dir ('.jenkins/sample_code/temp/website'){
-                sh '''
-                aws s3 sync ./ s3://mjjenkins
-                '''
-            }
-          }
-
-          post {
-              // If Maven was able to run the tests, even if some of the test
-              // failed, record the test results and archive the jar file.
-              success {
-                  echo 'Successfully Cloned Repository'
-
-                  mail  to: 'alswosp0206@gmail.com',
-                        subject: "Deploy Frontend Success",
-                        body: "Successfully deployed frontend!"
-
-              }
-
-              failure {
-                  echo 'I failed :('
-
-                  mail  to: 'alswosp0206@gmail.com',
-                        subject: "Failed Pipelinee",
-                        body: "Something is wrong with deploy frontend"
-              }
-          }
-        }
-        
-        stage('Lint Backend') {
-            // Docker plugin and Docker Pipeline 두개를 깔아야 사용가능!
-            agent {
-              docker {
-                image 'node:latest'
-              }
-            }
-            
-            steps {
-              dir ('.jenkins/sample_code/temp/server'){
-                  sh '''
-                  npm install&&
-                  npm run lint
-                  '''
-              }
-            }
-        }
-        
-        stage('Test Backend') {
-          agent {
-            docker {
-              image 'node:latest'
-            }
-          }
-          steps {
-            echo 'Test Backend'
-
-            dir ('.jenkins/sample_code/temp/server'){
-                sh '''
-                npm install
-                npm run test
-                '''
-            }
-          }
         }
         
         stage('Bulid Backend') {
