@@ -68,6 +68,21 @@ col.insert_one(
   'bio': None,
   'user_email': email
 })
+
+# insert 후 해당 id를 얻고 싶을 때 사용하는 방법
+comment_info = col_comment.insert_one({
+            'post_id' : data['post_id'],
+            'comment_user' : session_user,
+            'comment_time' : time,
+            'comment' : comment,
+            'reply_list' : []
+        })
+        col_user.update_one(
+            {'user_id': session['login']},
+            {'$push': {'comment': {'comment_id': str(comment_info.inserted_id), 'kind': 'comment', 'time': time}
+            }}
+        )
+# insert 할 때 변수에 대입한 후 해당 변수에 inserted_id를 사용하면된다.
 ```
   - **Read**
 ```
@@ -114,6 +129,13 @@ col_post.update_one({'_id':ObjectId(data['post_id'])}, {'$pull': {'like': { 'nic
         '_id': ObjectId('61efc1b8a94321fa3d464725')
     })
  ```
+ - **Find one and Update**
+ Update를 할 때 Update를 한 후 해당 document 정보가 필요할 때 사용하는 함수
+ ```
+ notice_post = col_post.find_one_and_update({'_id': ObjectId(data['post_id'])}, {'$inc': {'comment': 1}}, return_document=ReturnDocument.AFTER)
+ ```
+ 원래는 inserted_id와 마찬가지로 updated_id를 통해서 해당 document의 id 값만 가지고 오고 싶었지만 어째서인지 none 값을 반환해서 사용한 방법
+ 
 이미지 저장, 불러오기 방법
 ----------
   * gridFs 이용하기 
